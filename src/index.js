@@ -80,6 +80,13 @@ class Clock extends React.Component {
     console.log('You refreshed timer!!');
     console.log(`resetTimerHandle -> this.props.session.value: ${this.props.session.value}`)
     this.props.timerHandle(this.props.session.value, 0);
+
+    if (this.timerStart) {
+      console.log('Found timer is running! Restarting timer');
+      clearInterval(this.timerInterval);
+      this.timerStart = !this.timerStart;
+      this.startPauseTimerHandle();
+    }
   }
 
   render() {
