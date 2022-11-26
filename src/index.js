@@ -20,6 +20,7 @@ class Clock extends React.Component {
     this.sessionDecreaseHandle = this.sessionDecreaseHandle.bind(this);
     this.startPauseTimerHandle = this.startPauseTimerHandle.bind(this);
     this.resetTimerHandle = this.resetTimerHandle.bind(this);
+    this.timerFunction = this.timerFunction.bind(this);
     this.timerStart = false;
     this.timerInterval = null;
     this.timerReset = false;
@@ -41,34 +42,28 @@ class Clock extends React.Component {
     this.props.sessionHandle(false);
   }
 
-  startPauseTimerHandle() {
-    let currentMin = this.props.timer.min;
-    let currentSec = this.props.timer.sec;
-    console.log(`startPauseTimerHandle -> currentMin: ${this.props.timer.min}, currentSec:${this.props.timer.sec}`)
+  timerFunction() {
+    const timerState = this.props.timer;
 
-    function timerFunction(timerHandle) {
-      let updatedSec = Utilities.decreaseValue(currentSec);
-      if (updatedSec === 0 && currentSec === 0) {
-        let updatedMin = Utilities.decreaseValue(currentMin);
-        if (updatedMin === 0 && currentMin === 0) {
-          // start break timer
-          console.log('we shall start break timer');
-        }
-        updatedSec = 59;
-        timerHandle(updatedMin, updatedSec);
-        currentMin = updatedMin;
-        currentSec = updatedSec;
-        return;
+    let updatedSec = Utilities.decreaseValue(timerState.sec);
+    if (updatedSec === 0 && timerState.sec === 0) {
+      let updatedMin = Utilities.decreaseValue(timerState.min);
+      if (updatedMin === 0 && timerState.min === 0) {
+        // start break timer
+        console.log('we shall start break timer');
       }
-      timerHandle(currentMin, updatedSec);
-      currentSec = updatedSec;
+      updatedSec = 59;
+      this.props.timerHandle(updatedMin, updatedSec);
+      return;
     }
+    this.props.timerHandle(timerState.min, updatedSec);
+  }
 
+  startPauseTimerHandle() {
     this.timerStart = !this.timerStart;
-
     if (this.timerStart) {
-      this.timerInterval = setInterval(timerFunction, 
-        1000, this.props.timerHandle);
+      this.timerInterval = setInterval(this.timerFunction,
+        1000);
     } else {
       if (this.timerInterval !== null) {
         clearInterval(this.timerInterval);
@@ -80,23 +75,12 @@ class Clock extends React.Component {
     console.log('You refreshed timer!!');
     console.log(`resetTimerHandle -> this.props.session.value: ${this.props.session.value}`)
     this.props.timerHandle(this.props.session.value, 0);
-    if (this.timerStart) {
-      this.timerReset = true;
-    }
   }
 
   render() {
     console.log('Render clock');
-    if (this.timerReset && this.timerStart) {
-      this.timerReset = false;
-      console.log(`resetTimerHandle -> timer is running, reinvoke startPauseTimerHandle()`);
-      // reset timerStart to false so when invoke startPauseTimerHandle, it will start the timer
-      clearInterval(this.timerInterval);
-      this.timerStart = !this.timerStart;
-      console.log('resetTimerHandle -> Invoking startPauseTimerHandle()')
-      this.startPauseTimerHandle();
-    }
-    
+    console.log(`currentMin is update to ${this.props.timer.min}`);
+    console.log(`currentSec is updated to ${this.props.timer.sec}`)
     return (
       <div className='clock'>
         <h1>Pomodoro timer</h1>
