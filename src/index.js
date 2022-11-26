@@ -67,7 +67,7 @@ class Clock extends React.Component {
     this.timerStart = !this.timerStart;
 
     if (this.timerStart) {
-      this.timerInterval = setInterval(timerFunction, 
+      this.timerInterval = setInterval(timerFunction,
         1000, this.props.timerHandle);
     } else {
       if (this.timerInterval !== null) {
@@ -80,17 +80,21 @@ class Clock extends React.Component {
     console.log('You refreshed timer!!');
     console.log(`resetTimerHandle -> this.props.session.value: ${this.props.session.value}`)
     this.props.timerHandle(this.props.session.value, 0);
-
-    if (this.timerStart) {
-      console.log('Found timer is running! Restarting timer');
-      clearInterval(this.timerInterval);
-      this.timerStart = !this.timerStart;
-      this.startPauseTimerHandle();
-    }
+    this.timerReset = true;
   }
 
   render() {
     console.log('Render clock');
+    if (this.timerReset) {
+
+      this.timerReset = false;
+      if (this.timerStart) {
+        console.log('Found timer is running! Restarting timer');
+        clearInterval(this.timerInterval);
+        this.timerStart = !this.timerStart;
+        this.startPauseTimerHandle();
+      }
+    }
     return (
       <div className='clock'>
         <h1>Pomodoro timer</h1>
