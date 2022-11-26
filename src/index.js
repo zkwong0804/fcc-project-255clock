@@ -80,7 +80,6 @@ class Clock extends React.Component {
     console.log('You refreshed timer!!');
     console.log(`resetTimerHandle -> this.props.session.value: ${this.props.session.value}`)
     this.props.timerHandle(this.props.session.value, 0);
-
     if (this.timerStart) {
       this.timerReset = true;
     }
@@ -97,6 +96,7 @@ class Clock extends React.Component {
       console.log('resetTimerHandle -> Invoking startPauseTimerHandle()')
       this.startPauseTimerHandle();
     }
+    
     return (
       <div className='clock'>
         <h1>Pomodoro timer</h1>
