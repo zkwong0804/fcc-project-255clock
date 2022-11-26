@@ -82,6 +82,14 @@ class Clock extends React.Component {
     this.props.timerHandle(this.props.session.value, 0);
 
     if (this.timerStart) {
+      this.timerReset = true;
+    }
+  }
+
+  render() {
+    console.log('Render clock');
+    if (this.timerReset && this.timerStart) {
+      this.timerReset = false;
       console.log(`resetTimerHandle -> timer is running, reinvoke startPauseTimerHandle()`);
       // reset timerStart to false so when invoke startPauseTimerHandle, it will start the timer
       clearInterval(this.timerInterval);
@@ -89,10 +97,6 @@ class Clock extends React.Component {
       console.log('resetTimerHandle -> Invoking startPauseTimerHandle()')
       this.startPauseTimerHandle();
     }
-  }
-
-  render() {
-    console.log('Render clock');
     return (
       <div className='clock'>
         <h1>Pomodoro timer</h1>
