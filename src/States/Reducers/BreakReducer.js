@@ -9,11 +9,12 @@ const defaultBreakState = () => {
 
 export const BreakReducer = (prevState = defaultBreakState(), action) => {
     const state = {...prevState};
+    if (action.type === ActionType.ResetState) return defaultBreakState();
     if (action.type !== ActionType.Break) return state;
     if (action.isIncrease) {
         state.value = Utilities.increaseValue(state.value);
     } else {
-        state.value = Utilities.decreaseValue(state.value);
+        state.value = Utilities.decreaseValueGreaterThanZero(state.value);
     }
 
     return state;

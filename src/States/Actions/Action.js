@@ -20,3 +20,16 @@ export const TimerAction = (min, sec) => {
         sec
     }
 };
+
+export const TimerLabelAction = (isSession) => {
+    return {
+        type: ActionType.TimerLabel,
+        isSession
+    }
+};
+
+export const ResetStateAction = () => {
+    return {
+        type: ActionType.ResetState
+    }
+};

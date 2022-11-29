@@ -9,12 +9,13 @@ const defaultSessionState = () => {
 
 export const SessionReducer = (prevState = defaultSessionState(), action) => {
     const state = {...prevState};
+    if (action.type === ActionType.ResetState) return defaultSessionState();
     if (action.type !== ActionType.Session) return state;
     
     if (action.isIncrease) {
         state.value = Utilities.increaseValue(state.value);
     } else {
-        state.value = Utilities.decreaseValue(state.value);
+        state.value = Utilities.decreaseValueGreaterThanZero(state.value);
     }
 
     return state;

@@ -22,40 +22,73 @@ class Clock extends React.Component {
     this.resetTimerHandle = this.resetTimerHandle.bind(this);
     this.timerFunction = this.timerFunction.bind(this);
     this.timerStart = false;
-    this.timerInterval = null;
-    this.timerReset = false;
+    this.timerInterval = undefined;
+    this.isSessionTimer = true;
   }
 
   breakIncreaseHandle() {
-    this.props.breakHandle(true);
+    if (!this.timerStart) {
+      this.props.breakHandle(true);
+    }
+    // this.props.breakHandle(true);
   }
 
   breakDecreaseHandle() {
-    this.props.breakHandle(false);
+    if (!this.timerStart) {
+      this.props.breakHandle(false);
+    }
+    // this.props.breakHandle(false);
   }
 
   sessionIncreaseHandle() {
-    this.props.sessionHandle(true);
+    if (!this.timerStart) {
+      this.props.sessionHandle(true);
+    }
   }
 
   sessionDecreaseHandle() {
-    this.props.sessionHandle(false);
+    if (!this.timerStart) {
+      this.props.sessionHandle(false);
+    }
   }
 
   timerFunction() {
     const timerState = this.props.timer;
 
     let updatedSec = Utilities.decreaseValue(timerState.sec);
+    let updatedMin = Utilities.decreaseValue(timerState.min);
+    
+    if (updatedSec === 0 && timerState.sec !== 0 && timerState.min === 0) {
+      //let this method handle 00:00
+      this.props.timerLabelHandle(!this.isSessionTimer);
+      const audioElement = document.querySelector("#beep");
+      audioElement.currentTime = 0;
+      audioElement.play();
+      setTimeout(function () {
+        audioElement.pause();
+      }, 3000);
+      this.props.timerHandle(timerState.min, updatedSec);
+      console.log(audioElement.paused)
+      return;
+    }
+
     if (updatedSec === 0 && timerState.sec === 0) {
-      let updatedMin = Utilities.decreaseValue(timerState.min);
-      if (updatedMin === 0 && timerState.min === 0) {
-        // start break timer
-        console.log('we shall start break timer');
+      if (timerState.min === 0) {
+        //reset timer
+        if (this.isSessionTimer) {
+          this.props.timerHandle(this.props.break.value, 0);
+          this.isSessionTimer = false;
+        } else {
+          this.props.timerHandle(this.props.session.value, 0);
+          this.isSessionTimer = true;
+        }
+        return;
       }
-      updatedSec = 59;
+      updatedSec = 2;
       this.props.timerHandle(updatedMin, updatedSec);
       return;
     }
+
     this.props.timerHandle(timerState.min, updatedSec);
   }
 
@@ -66,46 +99,69 @@ class Clock extends React.Component {
         1000);
     } else {
       if (this.timerInterval !== null) {
-        clearInterval(this.timerInterval);
+        this.timerInterval = clearInterval(this.timerInterval);
       }
     }
   }
 
   resetTimerHandle() {
-    console.log('You refreshed timer!!');
-    console.log(`resetTimerHandle -> this.props.session.value: ${this.props.session.value}`)
-    this.props.timerHandle(this.props.session.value, 0);
+    this.props.resetState();
+    this.timerInterval = clearInterval(this.timerInterval);
+    this.isSessionTimer = true;
+    this.timerStart = false;
+    const audio = document.querySelector("#beep");
+    audio.pause();
+    audio.currentTime = 0;
+    this.forceUpdate();
   }
 
   render() {
-    console.log('Render clock');
-    console.log(`currentMin is update to ${this.props.timer.min}`);
-    console.log(`currentSec is updated to ${this.props.timer.sec}`)
+    const body = document.querySelector('body');
+    if (this.isSessionTimer) {
+      body.className = 'bg-session';
+    } else {
+      body.className = 'bg-break';
+    }
     return (
       <div className='clock'>
         <h1>Pomodoro timer</h1>
-        <div>
-          <ValueLength
-            titleLabel='Break'
-            value={this.props.break.value}
-            valueId='break-label'
-            increaseId='break-increment'
-            decreaseId='break-decrement'
-            increaseBehavior={this.breakIncreaseHandle}
-            decreaseBehavior={this.breakDecreaseHandle} />
-          <ValueLength
-            titleLabel='Session'
-            value={this.props.session.value}
-            valueId='session-label'
-            increaseId='session-increment'
-            decreaseId='session-decrement'
-            increaseBehavior={this.sessionIncreaseHandle}
-            decreaseBehavior={this.sessionDecreaseHandle} />
+
+
+        <div className='panel'>
+          <div className='timer-panel'>
+            <Timer min={this.props.timer.min} sec={this.props.timer.sec} timerLabel={this.props.timerLabel.value} />
+            <TimerControl
+              startPauseTimer={this.startPauseTimerHandle}
+              resetTimer={this.resetTimerHandle}
+              timerStart={this.timerStart} />
+          </div>
+          <div className='controls-panel'>
+            <ValueLength
+              titleLabel='Break'
+              value={this.props.break.value}
+              labelId='break-label'
+              valueId='break-length'
+              increaseId='break-increment'
+              decreaseId='break-decrement'
+
+              increaseBehavior={this.breakIncreaseHandle}
+              decreaseBehavior={this.breakDecreaseHandle} />
+            <ValueLength
+              titleLabel='Session'
+              value={this.props.session.value}
+              labelId='session-label'
+              valueId='session-length'
+              increaseId='session-increment'
+              decreaseId='session-decrement'
+              increaseBehavior={this.sessionIncreaseHandle}
+              decreaseBehavior={this.sessionDecreaseHandle} />
+          </div>
         </div>
-        <Timer min={this.props.timer.min} sec={this.props.timer.sec} />
-        <TimerControl
-          startPauseTimer={this.startPauseTimerHandle}
-          resetTimer={this.resetTimerHandle} />
+
+        <audio src='https://raw.githubusercontent.com/freeCodeCamp/cdn/master/build/testable-projects-fcc/audio/BeepSound.wav'
+          id='beep'>
+        </audio>
+
       </div>
     );
   }

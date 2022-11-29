@@ -1,0 +1,81 @@
+8. I can see an element with corresponding id="time-left". NOTE: Paused or running, the value in this field should always be displayed in mm:ss format (i.e. 25:00).
+time-left is not formatted correctly: expected '25' to equal '60'
+AssertionError: time-left is not formatted correctly: expected '25' to equal '60'
+    at Proxy.c (https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js:525:1889)
+    at Proxy.u (https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js:407:130)
+    at n.strictEqual (https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js:550:655)
+    at https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js:584:157045
+    at l (https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js:584:79440)
+    at Generator._invoke (https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js:584:79193)
+    at Generator.next (https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js:584:79799)
+    at r (https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js:1:1054)
+    at s (https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js:1:1265)
+
+6. I should not be able to set a session or break length to <= 0.
+Value in element with id of "break-length" is less than 1.: expected '0' to equal '1'
+AssertionError: Value in element with id of "break-length" is less than 1.: expected '0' to equal '1'
+    at Proxy.c (https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js:525:1889)
+    at Proxy.u (https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js:407:130)
+    at n.strictEqual (https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js:550:655)
+    at https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js:584:161252
+    at l (https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js:584:79440)
+    at Generator._invoke (https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js:584:79193)
+    at Generator.next (https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js:584:79799)
+    at r (https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js:1:1054)
+    at s (https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js:1:1265)
+
+10. If the timer is running and I click the element with id="start_stop", the countdown should pause.
+25 + 5 has started but time displayed is not changing: expected '00' to not equal '00'
+AssertionError: 25 + 5 has started but time displayed is not changing: expected '00' to not equal '00'
+    at Proxy.c (https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js:525:1889)
+    at Proxy.u (https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js:407:130)
+    at n.notStrictEqual (https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js:550:736)
+    at n.<anonymous> (https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js:584:163779)
+    at l (https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js:584:79440)
+    at Generator._invoke (https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js:584:79193)
+    at Generator.next (https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js:584:79799)
+    at r (https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js:1:1054)
+    at s (https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js:1:1265)
+
+11. If the timer is paused and I click the element with id="start_stop", the countdown should resume running from the point at which it was paused.
+25 + 5 clock has resumed but displayed time is not changing : expected 59 to be below 59
+AssertionError: 25 + 5 clock has resumed but displayed time is not changing : expected 59 to be below 59
+    at Proxy.d (https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js:525:4711)
+    at Proxy.u (https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js:407:130)
+    at n.isBelow (https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js:550:1096)
+    at n.<anonymous> (https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js:584:164869)
+    at l (https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js:584:79440)
+    at Generator._invoke (https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js:584:79193)
+    at Generator.next (https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js:584:79799)
+    at r (https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js:1:1054)
+    at s (https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js:1:1265)
+
+12. When a session countdown reaches zero (NOTE: timer MUST reach 00:00), and a new countdown begins, the element with the id of "timer-label" should display a string indicating a break has begun.
+Timer has not changed.
+Error: Timer has not changed.
+    at https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js:584:153509
+
+14. When a break countdown reaches zero (NOTE: timer MUST reach 00:00), and a new countdown begins, the element with the id of "timer-label" should display a string indicating a session has begun.
+Timer has not changed.
+Error: Timer has not changed.
+    at https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js:584:153509
+
+15. When a break countdown reaches zero (NOTE: timer MUST reach 00:00), a new session countdown should begin, counting down from the value currently displayed in the id="session-length" element.
+Timer has not changed.
+Error: Timer has not changed.
+    at https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js:584:153509
+
+1. When a countdown reaches zero (NOTE: timer MUST reach 00:00), a sound indicating that time is up should play. This should utilize an HTML5 <audio> tag and have a corresponding id="beep".
+Timer has reached zero but audio is not playing while it should.: expected true to be false
+AssertionError: Timer has reached zero but audio is not playing while it should.: expected true to be false
+    at o.<anonymous> (https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js:525:15147)
+    at o.e (https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js:401:182)
+    at Reflect.get (<anonymous>)
+    at Object.e [as get] (https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js:68:1382)
+    at n.isFalse (https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js:550:1349)
+    at n.<anonymous> (https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js:584:169169)
+    at l (https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js:584:79440)
+    at Generator._invoke (https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js:584:79193)
+    at Generator.next (https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js:584:79799)
+    at r (https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js:1:1054)
+
